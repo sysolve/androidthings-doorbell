@@ -17,8 +17,8 @@ import android.widget.ImageView;
 
 import com.google.android.things.pio.Gpio;
 import com.google.android.things.pio.GpioCallback;
-import com.google.android.things.pio.PeripheralManagerService;
 import com.sysolve.androidthings.utils.BoardSpec;
+import com.google.android.things.pio.PeripheralManager;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -73,6 +73,7 @@ public class MainActivity extends Activity {
                 != PackageManager.PERMISSION_GRANTED) {
             // A problem occurred auto-granting the permission
             Log.d(TAG, "No permission");
+
             return;
         }
 
@@ -92,14 +93,15 @@ public class MainActivity extends Activity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("takePicture", "click image to take picture");
                 mCamera.takePicture();
             }
         });
 
-        PeripheralManagerService service = new PeripheralManagerService();
+        PeripheralManager manager = PeripheralManager.getInstance();
 
         try {
-            mButtonGpio = service.openGpio(BoardSpec.getGoogleSampleButtonGpioPin());
+            mButtonGpio = manager.openGpio(BoardSpec.getGoogleSampleButtonGpioPin());
             mButtonGpio.setDirection(Gpio.DIRECTION_IN);
             mButtonGpio.setEdgeTriggerType(Gpio.EDGE_FALLING);
             mButtonGpio.registerGpioCallback(new GpioCallback() {
