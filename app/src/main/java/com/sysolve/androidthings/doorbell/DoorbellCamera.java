@@ -239,25 +239,26 @@ public class DoorbellCamera {
         }
         if (camIds.length < 1) {
             Log.d(TAG, "No cameras found");
-        }
-        String id = camIds[0];
-        Log.d(TAG, "Using camera id " + id);
-        try {
-            CameraCharacteristics characteristics = manager.getCameraCharacteristics(id);
-            StreamConfigurationMap configs = characteristics.get(
-                    CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-            for (int format : configs.getOutputFormats()) {
-                Log.d(TAG, "Getting sizes for format: " + format);
-                for (Size s : configs.getOutputSizes(format)) {
-                    Log.d(TAG, "\t" + s.toString());
+        } else {
+            String id = camIds[0];
+            Log.d(TAG, "Using camera id " + id);
+            try {
+                CameraCharacteristics characteristics = manager.getCameraCharacteristics(id);
+                StreamConfigurationMap configs = characteristics.get(
+                        CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+                for (int format : configs.getOutputFormats()) {
+                    Log.d(TAG, "Getting sizes for format: " + format);
+                    for (Size s : configs.getOutputSizes(format)) {
+                        Log.d(TAG, "\t" + s.toString());
+                    }
                 }
+                int[] effects = characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_EFFECTS);
+                for (int effect : effects) {
+                    Log.d(TAG, "Effect available: " + effect);
+                }
+            } catch (CameraAccessException e) {
+                Log.d(TAG, "Cam access exception getting characteristics.");
             }
-            int[] effects = characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_EFFECTS);
-            for (int effect : effects) {
-                Log.d(TAG, "Effect available: " + effect);
-            }
-        } catch (CameraAccessException e) {
-            Log.d(TAG, "Cam access exception getting characteristics.");
         }
     }
 }
