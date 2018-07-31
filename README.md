@@ -5,9 +5,10 @@ Android Things使用摄像头拍摄照片。
 
 通过PIN_40连接按键，按键按下时也会拍摄照片。
 
-代码已使用树莓派3B和摄像头测试通过。
+代码已使用树莓派3B和摄像头测试通过，已使用iMX7D Pico开发板调试通过。
 
-调试时，首次运行会出现无法获取权限的问题，重启开发板后再运行即正常。
+代码已升级到Android Things Developer Preview 8，建议先阅读我的《Android Things DP8新特性》一文，了解DP8中需要注意的地方。
+https://zhuanlan.zhihu.com/p/36168138
 
 下一步
 =====
