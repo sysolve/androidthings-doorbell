@@ -121,6 +121,26 @@ public class MainActivity extends Activity {
         }
     }
 
+    /**
+     * Handle image processing
+     */
+    private void onPictureTaken(final byte[] imageBytes) {
+        if (imageBytes != null) {
+            String imageStr = Base64.encodeToString(imageBytes, Base64.NO_WRAP | Base64.URL_SAFE);
+            Log.d(TAG, "imageBase64:"+imageStr);
+
+            final Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+            if (bitmap != null) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        imageView.setImageBitmap(bitmap);
+                    }
+                });
+            }
+        }
+    }
+
     long buttonPressedTimes = 0;
 
     @Override
@@ -155,23 +175,5 @@ public class MainActivity extends Activity {
                 }
             };
 
-    /**
-     * Handle image processing in Firebase and Cloud Vision.
-     */
-    private void onPictureTaken(final byte[] imageBytes) {
-        if (imageBytes != null) {
-            String imageStr = Base64.encodeToString(imageBytes, Base64.NO_WRAP | Base64.URL_SAFE);
-            Log.d(TAG, "imageBase64:"+imageStr);
 
-            final Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-            if (bitmap != null) {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        imageView.setImageBitmap(bitmap);
-                    }
-                });
-            }
-        }
-    }
 }
